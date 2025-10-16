@@ -42,7 +42,7 @@ st.markdown("""
     /* Input section styling */
     .input-section {
         background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-        padding: 2rem;
+        padding: 1.5rem 2rem;
         border-radius: 1rem;
         margin-bottom: 1.5rem;
         border: 1px solid #475569;
@@ -50,9 +50,10 @@ st.markdown("""
     
     .input-section h3 {
         color: #ffffff;
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         font-weight: 600;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1.2rem;
+        margin-top: 0;
     }
     
     label {
@@ -61,13 +62,17 @@ st.markdown("""
         font-size: 1rem;
     }
     
-    /* Metric cards */
+    /* Metric cards - all same height */
     .metric-card-blue {
         background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
         padding: 1.5rem;
         border-radius: 1rem;
         color: white;
         margin-bottom: 1.5rem;
+        min-height: 140px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
     
     .metric-card-red {
@@ -76,6 +81,10 @@ st.markdown("""
         border-radius: 1rem;
         color: white;
         margin-bottom: 1.5rem;
+        min-height: 140px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
     
     .metric-card-green {
@@ -84,6 +93,10 @@ st.markdown("""
         border-radius: 1rem;
         color: white;
         margin-bottom: 1.5rem;
+        min-height: 140px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
     
     .metric-card-orange {
@@ -92,6 +105,10 @@ st.markdown("""
         border-radius: 1rem;
         color: white;
         margin-bottom: 1.5rem;
+        min-height: 140px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
     
     .metric-label {
@@ -115,19 +132,27 @@ st.markdown("""
     /* Table section */
     .table-section {
         background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-        padding: 1.5rem;
+        padding: 0;
         border-radius: 1rem;
         margin-bottom: 1.5rem;
         border: 1px solid #475569;
+        overflow: hidden;
     }
     
     .table-header {
+        background: linear-gradient(135deg, #334155 0%, #475569 100%);
         color: #10b981;
         font-size: 1.3rem;
         font-weight: 600;
-        margin-bottom: 1rem;
+        padding: 1.2rem 1.5rem;
+        margin: 0;
         display: flex;
         align-items: center;
+        border-bottom: 2px solid #10b981;
+    }
+    
+    .table-content {
+        padding: 1.5rem;
     }
     
     /* Performance cards */
@@ -234,37 +259,44 @@ st.markdown("""
     
     /* Dataframe styling */
     .stDataFrame {
-        background-color: transparent;
+        background-color: transparent !important;
     }
     
     [data-testid="stDataFrame"] {
-        background-color: transparent;
+        background-color: transparent !important;
     }
     
     /* Custom table styling */
-    .stDataFrame table {
-        width: 100%;
-        text-align: center;
+    .dataframe {
+        width: 100% !important;
+        background-color: transparent !important;
     }
     
-    .stDataFrame th {
-        background-color: #334155 !important;
-        color: #10b981 !important;
+    .dataframe thead tr th {
+        background-color: #1e293b !important;
+        color: #94a3b8 !important;
         font-weight: 600 !important;
         text-align: center !important;
-        padding: 12px !important;
-        font-size: 1rem !important;
+        padding: 14px 12px !important;
+        font-size: 0.95rem !important;
+        border-bottom: 1px solid #475569 !important;
     }
     
-    .stDataFrame td {
-        padding: 12px !important;
+    .dataframe tbody tr td {
+        padding: 14px 12px !important;
         text-align: center !important;
         color: #e2e8f0 !important;
         font-size: 0.95rem !important;
+        background-color: #1e293b !important;
+        border-bottom: 1px solid #334155 !important;
     }
     
-    .stDataFrame tr:hover {
+    .dataframe tbody tr:hover td {
         background-color: #334155 !important;
+    }
+    
+    .dataframe tbody tr:last-child td {
+        border-bottom: none !important;
     }
     
     /* Hide Streamlit branding */
@@ -273,15 +305,15 @@ st.markdown("""
     
     /* Input field styling */
     .stSelectbox > div > div {
-        background-color: #475569;
-        border-color: #64748b;
-        color: #ffffff;
+        background-color: #475569 !important;
+        border-color: #64748b !important;
+        color: #ffffff !important;
     }
     
     .stNumberInput > div > div > input {
-        background-color: #475569;
-        border-color: #64748b;
-        color: #ffffff;
+        background-color: #475569 !important;
+        border-color: #64748b !important;
+        color: #ffffff !important;
     }
     
     /* Hide empty container */
@@ -297,6 +329,15 @@ st.markdown("""
     
     div[data-testid="column"] {
         padding: 0 0.5rem;
+    }
+    
+    /* Fix column width consistency */
+    div[data-testid="column"]:first-child {
+        flex: 1 1 50% !important;
+    }
+    
+    div[data-testid="column"]:last-child {
+        flex: 1 1 50% !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -450,7 +491,9 @@ with col2:
     """, unsafe_allow_html=True)
 
 # Projection table
-st.markdown('<div class="table-section"><div class="table-header">📈 Disbursement Projection for Upcoming Periods</div>', unsafe_allow_html=True)
+st.markdown('<div class="table-section">', unsafe_allow_html=True)
+st.markdown('<div class="table-header">📈 Disbursement Projection for Upcoming Periods</div>', unsafe_allow_html=True)
+st.markdown('<div class="table-content">', unsafe_allow_html=True)
 
 if results["projection_data"]:
     df = pd.DataFrame(results["projection_data"])
@@ -463,21 +506,36 @@ if results["projection_data"]:
         'At Current Pace (CR)': '₹{:.3f}',
         'To Hit Target (CR)': '₹{:.3f}'
     }).set_properties(**{
-        'background-color': '#1e293b',
-        'color': '#e2e8f0',
-        'border-color': '#334155',
         'text-align': 'center'
     }).set_table_styles([
-        {'selector': 'th', 'props': [('background-color', '#334155'), ('color', '#10b981'), ('font-weight', '600'), ('text-align', 'center')]},
-        {'selector': 'td', 'props': [('padding', '12px'), ('text-align', 'center')]},
-        {'selector': 'tr:hover', 'props': [('background-color', '#334155')]}
+        {'selector': 'thead th', 'props': [
+            ('background-color', '#1e293b'),
+            ('color', '#94a3b8'),
+            ('font-weight', '600'),
+            ('text-align', 'center'),
+            ('padding', '14px 12px'),
+            ('border-bottom', '1px solid #475569')
+        ]},
+        {'selector': 'tbody td', 'props': [
+            ('text-align', 'center'),
+            ('padding', '14px 12px'),
+            ('color', '#e2e8f0'),
+            ('background-color', '#1e293b'),
+            ('border-bottom', '1px solid #334155')
+        ]},
+        {'selector': 'tbody tr:hover', 'props': [
+            ('background-color', '#334155')
+        ]},
+        {'selector': 'tbody tr:last-child td', 'props': [
+            ('border-bottom', 'none')
+        ]}
     ])
     
     st.dataframe(styled_df, use_container_width=True, hide_index=True)
 else:
     st.info("No upcoming periods to display.")
 
-st.markdown('</div>', unsafe_allow_html=True)
+st.markdown('</div></div>', unsafe_allow_html=True)
 
 # Alert message
 if results["gap"] > 0:
