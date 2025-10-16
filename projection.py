@@ -255,6 +255,11 @@ st.markdown("""
         border-color: #475569;
         color: #ffffff;
     }
+    
+    /* Hide empty container */
+    .element-container:has(> .stMarkdown > div[data-testid="stMarkdownContainer"]:empty) {
+        display: none;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -345,7 +350,6 @@ def calculate_projections(days_passed, target_amount, amount_disbursed):
 
 # Header
 st.markdown('<div class="main-header">🎯 Disbursement Projection Calculator</div>', unsafe_allow_html=True)
-st.markdown('<div class="sub-header">Monitor and optimize your monthly disbursement targets</div>', unsafe_allow_html=True)
 
 # Input section
 st.markdown('<div class="input-section">', unsafe_allow_html=True)
@@ -377,6 +381,14 @@ with col1:
         <div class="metric-value">₹{target_amount:.2f} CR</div>
     </div>
     """, unsafe_allow_html=True)
+    
+    st.markdown(f"""
+    <div class="metric-card-green">
+        <div class="metric-label">Disbursed So Far</div>
+        <div class="metric-value">₹{amount_disbursed:.2f} CR</div>
+        <div class="metric-sub">{results['actual_percentage']:.2f}%</div>
+    </div>
+    """, unsafe_allow_html=True)
 
 with col2:
     on_track = results["gap"] <= 0
@@ -391,19 +403,7 @@ with col2:
         <div class="metric-sub">Gap: ₹{abs(results['gap']):.2f} CR</div>
     </div>
     """, unsafe_allow_html=True)
-
-col1, col2 = st.columns(2)
-
-with col1:
-    st.markdown(f"""
-    <div class="metric-card-green">
-        <div class="metric-label">Disbursed So Far</div>
-        <div class="metric-value">₹{amount_disbursed:.2f} CR</div>
-        <div class="metric-sub">{results['actual_percentage']:.2f}%</div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col2:
+    
     st.markdown(f"""
     <div class="metric-card-orange">
         <div class="metric-label">Expected by Day {days_passed}</div>
@@ -418,11 +418,26 @@ st.markdown('<div class="table-header">📈 Disbursement Projection for Upcoming
 
 if results["projection_data"]:
     df = pd.DataFrame(results["projection_data"])
-    df["Historical %"] = df["Historical %"].apply(lambda x: f"{x:.2f}%")
-    df["At Current Pace (CR)"] = df["At Current Pace (CR)"].apply(lambda x: f"₹{x:.3f}")
-    df["To Hit Target (CR)"] = df["To Hit Target (CR)"].apply(lambda x: f"₹{x:.3f}")
     
-    st.dataframe(df, use_container_width=True, hide_index=True)
+    # Style the dataframe
+    def style_dataframe(val):
+        return 'color: #94a3b8'
+    
+    styled_df = df.style.format({
+        'Historical %': '{:.2f}%',
+        'At Current Pace (CR)': '₹{:.3f}',
+        'To Hit Target (CR)': '₹{:.3f}'
+    }).set_properties(**{
+        'background-color': '#1e293b',
+        'color': '#ffffff',
+        'border-color': '#334155'
+    }).set_table_styles([
+        {'selector': 'th', 'props': [('background-color', '#334155'), ('color', '#94a3b8'), ('font-weight', '600')]},
+        {'selector': 'td', 'props': [('padding', '12px')]},
+        {'selector': 'tr:hover', 'props': [('background-color', '#334155')]}
+    ])
+    
+    st.dataframe(styled_df, use_container_width=True, hide_index=True)
 else:
     st.info("No upcoming periods to display.")
 
