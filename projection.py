@@ -277,12 +277,12 @@ st.markdown("""
 
 # Disbursement pattern constants
 DISBURSEMENT_PATTERN = {
-    "Days 1-5": 21.27,
-    "Days 6-10": 10.72,
-    "Days 11-15": 7.77,
-    "Days 16-20": 8.38,
-    "Days 21-25": 12.45,
-    "Days 26-31": 39.30
+    "Days 1-5": 21.29,
+    "Days 6-10": 10.74,
+    "Days 11-15": 7.79,
+    "Days 16-20": 8.40,
+    "Days 21-25": 12.47,
+    "Days 26-31": 39.32
 }
 
 ALLOWED_DAYS = [0, 5, 10, 15, 20, 25, 31]
