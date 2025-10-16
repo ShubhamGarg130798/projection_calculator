@@ -370,13 +370,13 @@ st.markdown("<h3>Input Parameters</h3>", unsafe_allow_html=True)
 col1, col2, col3 = st.columns(3)
 
 with col1:
-    days_passed = st.selectbox("Days Passed", ALLOWED_DAYS, index=1)
+    days_passed = st.selectbox("Days Passed", ALLOWED_DAYS, index=3)
 
 with col2:
-    target_amount = st.number_input("Target Amount (CR)", min_value=0.1, value=10.0, step=0.1, format="%.2f")
+    target_amount = st.number_input("Target Amount (CR)", min_value=0.1, value=125.50, step=0.1, format="%.2f")
 
 with col3:
-    amount_disbursed = st.number_input("Disbursed Till Now (CR)", min_value=0.0, value=1.0, step=0.1, format="%.2f")
+    amount_disbursed = st.number_input("Disbursed Till Now (CR)", min_value=0.0, value=35.0, step=0.1, format="%.2f")
 
 st.markdown('</div>', unsafe_allow_html=True)
 
