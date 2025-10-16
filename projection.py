@@ -51,7 +51,7 @@ st.markdown("""
         color: #ffffff;
         font-size: 1.25rem;
         font-weight: 600;
-        margin-bottom: 1rem;
+        margin-bottom: 0.75rem;
         margin-top: 0;
     }
     
@@ -137,7 +137,7 @@ st.markdown("""
     }
     
     .table-content-wrapper {
-        padding: 1.5rem;
+        padding: 0.5rem 1.5rem 1.5rem 1.5rem;
     }
     
     /* Performance cards */
