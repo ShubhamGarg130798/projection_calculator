@@ -41,10 +41,11 @@ st.markdown("""
     
     /* Input section styling */
     .input-section {
-        background-color: #1e293b;
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
         padding: 2rem;
         border-radius: 1rem;
         margin-bottom: 1.5rem;
+        border: 1px solid #475569;
     }
     
     .input-section h3 {
@@ -55,22 +56,18 @@ st.markdown("""
     }
     
     label {
-        color: #cbd5e1 !important;
-        font-weight: 500;
-        font-size: 0.95rem;
+        color: #e2e8f0 !important;
+        font-weight: 600;
+        font-size: 1rem;
     }
     
-    /* Metric cards - all same height */
+    /* Metric cards */
     .metric-card-blue {
         background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
         padding: 1.5rem;
         border-radius: 1rem;
         color: white;
         margin-bottom: 1.5rem;
-        height: 140px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
     }
     
     .metric-card-red {
@@ -79,10 +76,6 @@ st.markdown("""
         border-radius: 1rem;
         color: white;
         margin-bottom: 1.5rem;
-        height: 140px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
     }
     
     .metric-card-green {
@@ -91,10 +84,6 @@ st.markdown("""
         border-radius: 1rem;
         color: white;
         margin-bottom: 1.5rem;
-        height: 140px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
     }
     
     .metric-card-orange {
@@ -103,10 +92,6 @@ st.markdown("""
         border-radius: 1rem;
         color: white;
         margin-bottom: 1.5rem;
-        height: 140px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
     }
     
     .metric-label {
@@ -129,10 +114,11 @@ st.markdown("""
     
     /* Table section */
     .table-section {
-        background-color: #1e293b;
+        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
         padding: 1.5rem;
         border-radius: 1rem;
         margin-bottom: 1.5rem;
+        border: 1px solid #475569;
     }
     
     .table-header {
@@ -144,15 +130,12 @@ st.markdown("""
         align-items: center;
     }
     
-    /* Performance cards - same height */
+    /* Performance cards */
     .performance-card {
         background-color: #1e293b;
         padding: 1.5rem;
         border-radius: 1rem;
         margin-bottom: 1.5rem;
-        height: 320px;
-        display: flex;
-        flex-direction: column;
     }
     
     .performance-card h3 {
@@ -249,7 +232,7 @@ st.markdown("""
         margin-bottom: 1rem;
     }
     
-    /* Dataframe styling - center aligned */
+    /* Dataframe styling */
     .stDataFrame {
         background-color: transparent;
     }
@@ -258,38 +241,62 @@ st.markdown("""
         background-color: transparent;
     }
     
-    [data-testid="stDataFrame"] table {
-        text-align: center !important;
+    /* Custom table styling */
+    .stDataFrame table {
+        width: 100%;
+        text-align: center;
     }
     
-    [data-testid="stDataFrame"] th {
+    .stDataFrame th {
+        background-color: #334155 !important;
+        color: #10b981 !important;
+        font-weight: 600 !important;
         text-align: center !important;
+        padding: 12px !important;
+        font-size: 1rem !important;
     }
     
-    [data-testid="stDataFrame"] td {
+    .stDataFrame td {
+        padding: 12px !important;
         text-align: center !important;
+        color: #e2e8f0 !important;
+        font-size: 0.95rem !important;
+    }
+    
+    .stDataFrame tr:hover {
+        background-color: #334155 !important;
     }
     
     /* Hide Streamlit branding */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     
-    /* Input field styling - same color for all */
+    /* Input field styling */
     .stSelectbox > div > div {
-        background-color: #334155;
-        border-color: #475569;
+        background-color: #475569;
+        border-color: #64748b;
         color: #ffffff;
     }
     
     .stNumberInput > div > div > input {
-        background-color: #334155;
-        border-color: #475569;
+        background-color: #475569;
+        border-color: #64748b;
         color: #ffffff;
     }
     
     /* Hide empty container */
     .element-container:has(> .stMarkdown > div[data-testid="stMarkdownContainer"]:empty) {
         display: none;
+    }
+    
+    /* Remove spacing between sections */
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 0rem;
+    }
+    
+    div[data-testid="column"] {
+        padding: 0 0.5rem;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -383,8 +390,7 @@ def calculate_projections(days_passed, target_amount, amount_disbursed):
 st.markdown('<div class="main-header">🎯 Disbursement Projection Calculator</div>', unsafe_allow_html=True)
 
 # Input section
-st.markdown('<div class="input-section">', unsafe_allow_html=True)
-st.markdown("<h3>Input Parameters</h3>", unsafe_allow_html=True)
+st.markdown('<div class="input-section"><h3>Input Parameters</h3>', unsafe_allow_html=True)
 
 col1, col2, col3 = st.columns(3)
 
@@ -444,27 +450,25 @@ with col2:
     """, unsafe_allow_html=True)
 
 # Projection table
-st.markdown('<div class="table-section">', unsafe_allow_html=True)
-st.markdown('<div class="table-header">📈 Disbursement Projection for Upcoming Periods</div>', unsafe_allow_html=True)
+st.markdown('<div class="table-section"><div class="table-header">📈 Disbursement Projection for Upcoming Periods</div>', unsafe_allow_html=True)
 
 if results["projection_data"]:
     df = pd.DataFrame(results["projection_data"])
     
-    # Style the dataframe
-    def style_dataframe(val):
-        return 'color: #94a3b8'
+    # Remove Historical % column
+    df = df[["Period", "At Current Pace (CR)", "To Hit Target (CR)"]]
     
+    # Style the dataframe
     styled_df = df.style.format({
-        'Historical %': '{:.2f}%',
         'At Current Pace (CR)': '₹{:.3f}',
         'To Hit Target (CR)': '₹{:.3f}'
     }).set_properties(**{
         'background-color': '#1e293b',
-        'color': '#ffffff',
+        'color': '#e2e8f0',
         'border-color': '#334155',
         'text-align': 'center'
     }).set_table_styles([
-        {'selector': 'th', 'props': [('background-color', '#334155'), ('color', '#94a3b8'), ('font-weight', '600'), ('text-align', 'center')]},
+        {'selector': 'th', 'props': [('background-color', '#334155'), ('color', '#10b981'), ('font-weight', '600'), ('text-align', 'center')]},
         {'selector': 'td', 'props': [('padding', '12px'), ('text-align', 'center')]},
         {'selector': 'tr:hover', 'props': [('background-color', '#334155')]}
     ])
@@ -474,52 +478,6 @@ else:
     st.info("No upcoming periods to display.")
 
 st.markdown('</div>', unsafe_allow_html=True)
-
-# Performance cards
-col1, col2 = st.columns(2)
-
-with col1:
-    st.markdown(f"""
-    <div class="performance-card">
-        <h3>📈 Current Performance</h3>
-        <div class="perf-row">
-            <span class="perf-label">Implied Total:</span>
-            <span class="perf-value">₹{results['implied_total']:.2f} CR</span>
-        </div>
-        <div class="perf-row">
-            <span class="perf-label">Actual %:</span>
-            <span class="perf-value">{results['actual_percentage']:.2f}%</span>
-        </div>
-        <div class="perf-row">
-            <span class="perf-label">Expected %:</span>
-            <span class="perf-value-yellow">{results['cumulative_expected_percentage']:.2f}%</span>
-        </div>
-        <div style="margin-top: 1.5rem;">
-            <div class="perf-label">If continuing at current pace:</div>
-            <div class="perf-big-value">₹{results['total_projected']:.2f} CR</div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-with col2:
-    daily_avg = results['remaining_amount'] / max(1, results['remaining_days'])
-    st.markdown(f"""
-    <div class="performance-card">
-        <h3>To Achieve Target</h3>
-        <div class="perf-row">
-            <span class="perf-label">Remaining Amount:</span>
-            <span class="perf-value-green">₹{results['remaining_amount']:.2f} CR</span>
-        </div>
-        <div class="perf-row">
-            <span class="perf-label">Remaining Days:</span>
-            <span class="perf-value-white">{results['remaining_days']}</span>
-        </div>
-        <div style="margin-top: 1.5rem;">
-            <div class="perf-label">Required daily average:</div>
-            <div class="perf-big-value-green">₹{daily_avg:.3f} CR/day</div>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
 
 # Alert message
 if results["gap"] > 0:
