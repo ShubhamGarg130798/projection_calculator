@@ -33,13 +33,13 @@ st.markdown("""
         margin-bottom: 2rem;
     }
     
-    .sub-header {
+  /*  .sub-header { */
         font-size: 1.1rem;
         color: #94a3b8;
         margin-bottom: 2rem;
     }
     
-    /* Input section styling */
+     Input section styling 
     .input-section {
         background-color: #1e293b;
         padding: 1.5rem 2rem;
