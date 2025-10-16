@@ -41,24 +41,24 @@ st.markdown("""
     
     /* Input section styling */
     .input-section {
-        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-        padding: 2rem;
+        background-color: #1e293b;
+        padding: 1.5rem 2rem;
         border-radius: 1rem;
         margin-bottom: 1.5rem;
-        border: 1px solid #475569;
     }
     
     .input-section h3 {
         color: #ffffff;
-        font-size: 1.5rem;
+        font-size: 1.25rem;
         font-weight: 600;
-        margin-bottom: 1.5rem;
+        margin-bottom: 1rem;
+        margin-top: 0;
     }
     
     label {
-        color: #e2e8f0 !important;
-        font-weight: 600;
-        font-size: 1rem;
+        color: #cbd5e1 !important;
+        font-weight: 500;
+        font-size: 0.95rem;
     }
     
     /* Metric cards */
@@ -68,6 +68,7 @@ st.markdown("""
         border-radius: 1rem;
         color: white;
         margin-bottom: 1.5rem;
+        height: 140px;
     }
     
     .metric-card-red {
@@ -76,6 +77,7 @@ st.markdown("""
         border-radius: 1rem;
         color: white;
         margin-bottom: 1.5rem;
+        height: 140px;
     }
     
     .metric-card-green {
@@ -84,6 +86,7 @@ st.markdown("""
         border-radius: 1rem;
         color: white;
         margin-bottom: 1.5rem;
+        height: 140px;
     }
     
     .metric-card-orange {
@@ -92,6 +95,7 @@ st.markdown("""
         border-radius: 1rem;
         color: white;
         margin-bottom: 1.5rem;
+        height: 140px;
     }
     
     .metric-label {
@@ -114,20 +118,26 @@ st.markdown("""
     
     /* Table section */
     .table-section {
-        background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-        padding: 1.5rem;
+        background-color: #1e293b;
+        padding: 0;
         border-radius: 1rem;
         margin-bottom: 1.5rem;
-        border: 1px solid #475569;
+        overflow: hidden;
     }
     
     .table-header {
         color: #10b981;
         font-size: 1.3rem;
         font-weight: 600;
-        margin-bottom: 1rem;
+        padding: 1rem 1.5rem;
+        margin: 0;
         display: flex;
         align-items: center;
+        background-color: #334155;
+    }
+    
+    .table-content-wrapper {
+        padding: 1.5rem;
     }
     
     /* Performance cards */
@@ -241,62 +251,26 @@ st.markdown("""
         background-color: transparent;
     }
     
-    /* Custom table styling */
-    .stDataFrame table {
-        width: 100%;
-        text-align: center;
-    }
-    
-    .stDataFrame th {
-        background-color: #334155 !important;
-        color: #10b981 !important;
-        font-weight: 600 !important;
-        text-align: center !important;
-        padding: 12px !important;
-        font-size: 1rem !important;
-    }
-    
-    .stDataFrame td {
-        padding: 12px !important;
-        text-align: center !important;
-        color: #e2e8f0 !important;
-        font-size: 0.95rem !important;
-    }
-    
-    .stDataFrame tr:hover {
-        background-color: #334155 !important;
-    }
-    
     /* Hide Streamlit branding */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     
     /* Input field styling */
     .stSelectbox > div > div {
-        background-color: #475569;
-        border-color: #64748b;
+        background-color: #334155;
+        border-color: #475569;
         color: #ffffff;
     }
     
     .stNumberInput > div > div > input {
-        background-color: #475569;
-        border-color: #64748b;
+        background-color: #334155;
+        border-color: #475569;
         color: #ffffff;
     }
     
     /* Hide empty container */
     .element-container:has(> .stMarkdown > div[data-testid="stMarkdownContainer"]:empty) {
         display: none;
-    }
-    
-    /* Remove spacing between sections */
-    .block-container {
-        padding-top: 2rem;
-        padding-bottom: 0rem;
-    }
-    
-    div[data-testid="column"] {
-        padding: 0 0.5rem;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -390,7 +364,8 @@ def calculate_projections(days_passed, target_amount, amount_disbursed):
 st.markdown('<div class="main-header">🎯 Disbursement Projection Calculator</div>', unsafe_allow_html=True)
 
 # Input section
-st.markdown('<div class="input-section"><h3>Input Parameters</h3>', unsafe_allow_html=True)
+st.markdown('<div class="input-section">', unsafe_allow_html=True)
+st.markdown("<h3>Input Parameters</h3>", unsafe_allow_html=True)
 
 col1, col2, col3 = st.columns(3)
 
@@ -450,7 +425,9 @@ with col2:
     """, unsafe_allow_html=True)
 
 # Projection table
-st.markdown('<div class="table-section"><div class="table-header">📈 Disbursement Projection for Upcoming Periods</div>', unsafe_allow_html=True)
+st.markdown('<div class="table-section">', unsafe_allow_html=True)
+st.markdown('<div class="table-header">📈 Disbursement Projection for Upcoming Periods</div>', unsafe_allow_html=True)
+st.markdown('<div class="table-content-wrapper">', unsafe_allow_html=True)
 
 if results["projection_data"]:
     df = pd.DataFrame(results["projection_data"])
@@ -464,11 +441,11 @@ if results["projection_data"]:
         'To Hit Target (CR)': '₹{:.3f}'
     }).set_properties(**{
         'background-color': '#1e293b',
-        'color': '#e2e8f0',
+        'color': '#ffffff',
         'border-color': '#334155',
         'text-align': 'center'
     }).set_table_styles([
-        {'selector': 'th', 'props': [('background-color', '#334155'), ('color', '#10b981'), ('font-weight', '600'), ('text-align', 'center')]},
+        {'selector': 'th', 'props': [('background-color', '#334155'), ('color', '#94a3b8'), ('font-weight', '600'), ('text-align', 'center')]},
         {'selector': 'td', 'props': [('padding', '12px'), ('text-align', 'center')]},
         {'selector': 'tr:hover', 'props': [('background-color', '#334155')]}
     ])
@@ -477,7 +454,7 @@ if results["projection_data"]:
 else:
     st.info("No upcoming periods to display.")
 
-st.markdown('</div>', unsafe_allow_html=True)
+st.markdown('</div></div>', unsafe_allow_html=True)
 
 # Alert message
 if results["gap"] > 0:
