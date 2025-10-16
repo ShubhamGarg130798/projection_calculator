@@ -30,7 +30,7 @@ st.markdown("""
         font-size: 3rem;
         font-weight: 700;
         color: #ffffff;
-        margin-bottom: 0.5rem;
+        margin-bottom: 2rem;
     }
     
     .sub-header {
@@ -60,13 +60,17 @@ st.markdown("""
         font-size: 0.95rem;
     }
     
-    /* Metric cards */
+    /* Metric cards - all same height */
     .metric-card-blue {
         background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
         padding: 1.5rem;
         border-radius: 1rem;
         color: white;
         margin-bottom: 1.5rem;
+        height: 140px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
     
     .metric-card-red {
@@ -75,6 +79,10 @@ st.markdown("""
         border-radius: 1rem;
         color: white;
         margin-bottom: 1.5rem;
+        height: 140px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
     
     .metric-card-green {
@@ -83,6 +91,10 @@ st.markdown("""
         border-radius: 1rem;
         color: white;
         margin-bottom: 1.5rem;
+        height: 140px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
     
     .metric-card-orange {
@@ -91,6 +103,10 @@ st.markdown("""
         border-radius: 1rem;
         color: white;
         margin-bottom: 1.5rem;
+        height: 140px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
     
     .metric-label {
@@ -128,12 +144,15 @@ st.markdown("""
         align-items: center;
     }
     
-    /* Performance cards */
+    /* Performance cards - same height */
     .performance-card {
         background-color: #1e293b;
         padding: 1.5rem;
         border-radius: 1rem;
         margin-bottom: 1.5rem;
+        height: 320px;
+        display: flex;
+        flex-direction: column;
     }
     
     .performance-card h3 {
@@ -230,7 +249,7 @@ st.markdown("""
         margin-bottom: 1rem;
     }
     
-    /* Dataframe styling */
+    /* Dataframe styling - center aligned */
     .stDataFrame {
         background-color: transparent;
     }
@@ -239,11 +258,23 @@ st.markdown("""
         background-color: transparent;
     }
     
+    [data-testid="stDataFrame"] table {
+        text-align: center !important;
+    }
+    
+    [data-testid="stDataFrame"] th {
+        text-align: center !important;
+    }
+    
+    [data-testid="stDataFrame"] td {
+        text-align: center !important;
+    }
+    
     /* Hide Streamlit branding */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     
-    /* Input field styling */
+    /* Input field styling - same color for all */
     .stSelectbox > div > div {
         background-color: #334155;
         border-color: #475569;
@@ -430,10 +461,11 @@ if results["projection_data"]:
     }).set_properties(**{
         'background-color': '#1e293b',
         'color': '#ffffff',
-        'border-color': '#334155'
+        'border-color': '#334155',
+        'text-align': 'center'
     }).set_table_styles([
-        {'selector': 'th', 'props': [('background-color', '#334155'), ('color', '#94a3b8'), ('font-weight', '600')]},
-        {'selector': 'td', 'props': [('padding', '12px')]},
+        {'selector': 'th', 'props': [('background-color', '#334155'), ('color', '#94a3b8'), ('font-weight', '600'), ('text-align', 'center')]},
+        {'selector': 'td', 'props': [('padding', '12px'), ('text-align', 'center')]},
         {'selector': 'tr:hover', 'props': [('background-color', '#334155')]}
     ])
     
