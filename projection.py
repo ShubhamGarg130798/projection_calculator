@@ -452,10 +452,13 @@ if results["projection_data"]:
     ])
     
     st.dataframe(styled_df, use_container_width=True, hide_index=True)
-    
-    # Download button
-    st.markdown('<br>', unsafe_allow_html=True)
-    
+else:
+    st.info("No upcoming periods to display.")
+
+st.markdown('</div></div>', unsafe_allow_html=True)
+
+# Download button (outside the table section)
+if results["projection_data"]:
     # Create complete calculation sheet with all data
     complete_df = pd.DataFrame({
         'Metric': [
@@ -488,14 +491,15 @@ if results["projection_data"]:
         ]
     })
     
+    # Create download dataframe with only visible columns (same format as shown)
+    download_df = pd.DataFrame(results["projection_data"])
+    download_df = download_df[["Period", "At Current Pace (CR)", "To Hit Target (CR)"]]
+    
     # Create Excel file with multiple sheets
     buffer = BytesIO()
     with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
         complete_df.to_excel(writer, sheet_name='Summary', index=False)
-        
-        # Add projections with Historical % included
-        projection_df = pd.DataFrame(results["projection_data"])
-        projection_df.to_excel(writer, sheet_name='Projections', index=False)
+        download_df.to_excel(writer, sheet_name='Projections', index=False)
     
     st.download_button(
         label="📥 Download Complete Monthly Calculation",
@@ -503,10 +507,6 @@ if results["projection_data"]:
         file_name=f"disbursement_projection_{days_passed}_days.xlsx",
         mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
-else:
-    st.info("No upcoming periods to display.")
-
-st.markdown('</div></div>', unsafe_allow_html=True)
 
 # Alert message
 if results["gap"] > 0:
