@@ -459,6 +459,8 @@ st.markdown('</div></div>', unsafe_allow_html=True)
 
 # Download button (outside the table section)
 if results["projection_data"]:
+    st.markdown('<br>', unsafe_allow_html=True)
+    
     # Create complete calculation sheet with all data
     complete_df = pd.DataFrame({
         'Metric': [
@@ -501,12 +503,16 @@ if results["projection_data"]:
         complete_df.to_excel(writer, sheet_name='Summary', index=False)
         download_df.to_excel(writer, sheet_name='Projections', index=False)
     
-    st.download_button(
-        label="📥 Download Complete Monthly Calculation",
-        data=buffer.getvalue(),
-        file_name=f"disbursement_projection_{days_passed}_days.xlsx",
-        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    )
+    # Center the download button
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        st.download_button(
+            label="📥 Download Complete Monthly Calculation",
+            data=buffer.getvalue(),
+            file_name=f"disbursement_projection_{days_passed}_days.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            use_container_width=True
+        )
 
 # Alert message
 if results["gap"] > 0:
