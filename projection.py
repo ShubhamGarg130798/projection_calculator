@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+from io import BytesIO
 
 # Page configuration
 st.set_page_config(
@@ -451,6 +452,57 @@ if results["projection_data"]:
     ])
     
     st.dataframe(styled_df, use_container_width=True, hide_index=True)
+    
+    # Download button
+    st.markdown('<br>', unsafe_allow_html=True)
+    
+    # Create complete calculation sheet with all data
+    complete_df = pd.DataFrame({
+        'Metric': [
+            'Target Amount (CR)',
+            'Disbursed Till Now (CR)',
+            'Days Passed',
+            'Expected by Day ' + str(days_passed) + ' (CR)',
+            'Expected Percentage (%)',
+            'Actual Percentage (%)',
+            'Implied Total at Current Pace (CR)',
+            'Total Projected (CR)',
+            'Gap (CR)',
+            'Remaining Amount (CR)',
+            'Remaining Days',
+            'Status'
+        ],
+        'Value': [
+            f'₹{target_amount:.2f}',
+            f'₹{amount_disbursed:.2f}',
+            days_passed,
+            f'₹{results["expected_amount"]:.2f}',
+            f'{results["cumulative_expected_percentage"]:.2f}%',
+            f'{results["actual_percentage"]:.2f}%',
+            f'₹{results["implied_total"]:.2f}',
+            f'₹{results["total_projected"]:.2f}',
+            f'₹{results["gap"]:.2f}',
+            f'₹{results["remaining_amount"]:.2f}',
+            results["remaining_days"],
+            'On Track' if results["gap"] <= 0 else 'Off Track'
+        ]
+    })
+    
+    # Create Excel file with multiple sheets
+    buffer = BytesIO()
+    with pd.ExcelWriter(buffer, engine='xlsxwriter') as writer:
+        complete_df.to_excel(writer, sheet_name='Summary', index=False)
+        
+        # Add projections with Historical % included
+        projection_df = pd.DataFrame(results["projection_data"])
+        projection_df.to_excel(writer, sheet_name='Projections', index=False)
+    
+    st.download_button(
+        label="📥 Download Complete Monthly Calculation",
+        data=buffer.getvalue(),
+        file_name=f"disbursement_projection_{days_passed}_days.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
 else:
     st.info("No upcoming periods to display.")
 
