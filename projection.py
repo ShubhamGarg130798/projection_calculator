@@ -503,6 +503,8 @@ if results["projection_data"]:
         complete_df.to_excel(writer, sheet_name='Summary', index=False)
         download_df.to_excel(writer, sheet_name='Projections', index=False)
     
+    buffer.seek(0)  # Reset buffer position to the beginning
+    
     # Center the download button
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
