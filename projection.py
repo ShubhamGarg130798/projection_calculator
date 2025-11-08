@@ -438,8 +438,8 @@ if results["projection_data"]:
     
     # Style the dataframe
     styled_df = df.style.format({
-        'At Current Pace (CR)': '₹{:.3f}',
-        'To Hit Target (CR)': '₹{:.3f}'
+        'At Current Pace (CR)': '₹{:.2f}',
+        'To Hit Target (CR)': '₹{:.2f}'
     }).set_properties(**{
         'background-color': '#1e293b',
         'color': '#ffffff',
